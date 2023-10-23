@@ -1,0 +1,76 @@
+/*  configurações gerais */
+:root{
+    --var-fundo-cabecalho-rodape: rgb(89, 39, 207);
+    --var-fundo-do-main:  rgb(243, 243, 243);
+    --var-largura-da-pagina: 375px;
+}
+
+body{
+    position: relative;
+}
+
+/* header */
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--var-fundo-cabecalho-rodape);
+    width: var(--var-largura-da-pagina);
+    height: 85px;
+    position: fixed;
+}
+
+    header img{
+        width: 75px;
+        height: 53px;
+        margin-left: 22px;
+
+    }
+
+    header ion-icon{
+        width: 45px;
+        height: 45px;
+        font-weight: 900;
+        margin-right: 22px;
+
+    }
+
+
+/* configurações main */
+
+main{
+    position: fixed;
+    /* background-color: var(--var-fundo-do-main); */
+    background-color: var(--var-fundo-do-main);
+    width: var(--var-largura-da-pagina);
+    top: 85px;
+    bottom: 80px;
+    z-index: 5;
+}
+
+
+/* configuraçẽs do footer */
+
+footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    height: 80px;
+    width: var(--var-largura-da-pagina);
+    background-color: var(--var-fundo-cabecalho-rodape);
+}
+
+    footer input{
+        margin-left: 17px;
+        height: 30px;
+        width: 145px;
+    }
+
+    footer ion-icon{
+        width: 26px;
+        height: 26px;
+        margin-right: 27px;
+    }
