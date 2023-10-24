@@ -8,6 +8,9 @@
 }
 
 body{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
     position: relative;
 }
 
@@ -42,6 +45,8 @@ header{
 /* configurações main */
 
 main{
+    box-sizing: border-box;
+    overflow: scroll;
     position: fixed;
     /* background-color: var(--var-fundo-do-main); */
     background-color: var(--var-fundo-do-main);
@@ -51,7 +56,12 @@ main{
     z-index: 5;
 }
 
-    main .entrada, main .saida{
+
+    main .mensagem{
+        margin-bottom: 4px;
+    }
+
+    main .status{
         display: flex;
         align-items: center;    
         justify-content: left;
