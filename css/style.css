@@ -3,6 +3,8 @@
     --var-fundo-cabecalho-rodape: rgb(89, 39, 207);
     --var-fundo-do-main:  rgb(243, 243, 243);
     --var-largura-da-pagina: 375px;
+    --var-fundo-mensagens-entrada-saida: #DCDCDC;
+    --var-hora: rgb(147, 129, 129);
 }
 
 body{
@@ -49,6 +51,26 @@ main{
     z-index: 5;
 }
 
+    main .entrada, main .saida{
+        display: flex;
+        align-items: center;    
+        justify-content: left;
+        background-color: var(--var-fundo-mensagens-entrada-saida);
+        width: var(--var-largura-da-pagina);
+        height: 40px;
+    }
+
+    p{
+        margin-left: 8px;
+    }
+
+    main p span{
+        color: var(--var-hora);
+    }
+
+    main p strong{
+        font-weight: 700;
+    }
 
 /* configuraçẽs do footer */
 
