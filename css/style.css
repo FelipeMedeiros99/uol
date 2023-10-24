@@ -58,16 +58,20 @@ main{
 
 
     main .mensagem{
-        margin-bottom: 4px;
-    }
-
-    main .status{
         display: flex;
         align-items: center;    
         justify-content: left;
-        background-color: var(--var-fundo-mensagens-entrada-saida);
+        min-height: 40px;
+        margin-bottom: 4px;
         width: var(--var-largura-da-pagina);
-        height: 40px;
+    }
+
+    main .message{
+        background-color: white;
+    }
+
+    main .status{
+        background-color: var(--var-fundo-mensagens-entrada-saida);
     }
 
     p{
