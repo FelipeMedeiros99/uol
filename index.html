@@ -9,9 +9,33 @@
 </head>
 
 <body>
+    <div class="oculto janela2">
+        <h1> 
+            Escolha um contato
+        </h1>
+        <h1>
+            para enviar mensagem
+        </h1>
+
+        <div class="online">
+            <div>
+                <ion-icon name="people-outline"></ion-icon>
+                <p>Todos</p>
+            </div>
+            <!-- quem está online -->
+        </div>
+
+        <div class="botoes">
+            <button>Confirmar</button>
+            <button onclick="abrirFecharJanelaSecundaria()">Cancelar</button>
+        </div>
+        
+    </div>
     <header>
         <img src="imagens/logo.jpg" alt="">
-        <ion-icon name="people-outline"></ion-icon>
+        <button>
+            <ion-icon name="people-outline" onclick="abrirFecharJanelaSecundaria()"></ion-icon>
+        </button>
     </header>
 
     <main>
@@ -20,12 +44,10 @@
 
     <footer>
         <input type="text" placeholder="Escreva aqui...">
-        <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+        <button>
+            <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+        </button>
     </footer>
-
-
-
-    
 
     <!-- bibliotecas -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -7,6 +7,8 @@ let main = document.querySelector('main')
 incioUsuario = true
 let texto = ""
 let hora = ""
+let mensagens = ""
+
 
 //------------ funçoes ----------//
 function mostraRetorno(dado){
@@ -61,9 +63,12 @@ function criaTelaDeMensagens(){
 }
 
 function recebeDadosMensagens(dado){
-    
+    mensagens = dado.data
     // gerando todas as mensagens e plotando na tela
     let dadosGerais = dado.data
+    // limpando mensagens anteriores
+    main.innerHTML = ""
+
     dadosGerais.forEach(function(informacoes){plotaMensagem(
         tipo=informacoes.type,
         usuarioQueEnviou=informacoes.from,
@@ -104,7 +109,6 @@ function scrollBaixo(){
 
 function enviarMensagem(){
     texto = document.querySelector('input').value
-    console.log(texto)
     hora = Date().substring(16, 24);
     let dadosDoEnvio = {
         from: nomeUsuario, 
@@ -114,11 +118,13 @@ function enviarMensagem(){
         time: hora
     }
 
-    // limpando a tela
-
     let promessaEnvio = axios.post(mensagensServidor, dadosDoEnvio)
     promessaEnvio.then(adicionaMensagemTodos)
     promessaEnvio.catch(mostraErro)
+
+    document.querySelector('input').value = ''
+
+
 }
 
 function adicionaMensagemTodos(dado){
@@ -126,9 +132,64 @@ function adicionaMensagemTodos(dado){
 }
 
 
+function abrirFecharJanelaSecundaria(){
+
+    document.querySelector(".janela2").classList.toggle('oculto')
+    
+//     let body = document.querySelector('.online')
+//     body.innerHTML += `
+//     `
+}
+
+function pessoasOnline(){
+    let promessa = axios.get(repositorio)
+    promessa.then(adicionarNaPagina)
+    promessa.catch(mostraErro)
+
+}
+
+function adicionarNaPagina(dado){
+
+    let online = document.querySelector('.online')
+    let pessoas = [...dado.data]
+
+    pessoas.forEach(function(pessoa){
+
+        online.innerHTML += `
+        <div>
+            <ion-icon name="people-outline"></ion-icon>
+            <p>${pessoa.name}</p>
+        </div>`
+    })
+}
+
+function atualizarMensagens(){
+    let promessa = axios.get(mensagensServidor)
+    promessa.then(comparaMensagens)
+    promessa.catch(mostraErro)
+}
+
+function comparaMensagens(dado){
+
+    // se alguma mensagem nova for enviada, atualiza no main
+    for (let i=0; i < (dado.data).length; i++){
+        console.log((dado.data[i]['type'] === mensagens[i]['type']))
+
+        if (!(dado.data[i]['type'] === mensagens[i]['type'])){
+            console.log('mensagens alteradas')
+            criaTelaDeMensagens()
+            break
+        } 
+    }    
+}
+
 // ------------ código ----------//
 // setInterval(criaTelaDeMensagens, 3000)
 
 
 criaTelaDeMensagens()
 
+setInterval(atualizarMensagens, 3000)
+// atualizarMensagens()
+
+pessoasOnline()
