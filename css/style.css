@@ -7,36 +7,96 @@
     --var-hora: rgb(147, 129, 129);
 }
 
+button{
+    cursor: pointer;
+    box-sizing: content-box;
+    margin-right: 22px;
+    width: 46px;
+    background-color: white;
+    border: none;
+}
+
 body{
     display: flex;
     /* align-items: center; */
     justify-content: center;
-    position: relative;
+    /* align-items: center; */
+    position: relative; 
 }
 
 
 /* janela 2 */
+
 .janela2{
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
     position: fixed;
-    right: 0;
-    height: 100%;
     width: 259px;
-    background-color: rgb(243, 43, 43);
+    height: 400px;
     z-index: 6;
+    background-color: rgb(255, 255, 255);
+    margin-left: 118px;
+    box-shadow: -4px 6px 9px rgb(1, 1, 1, 0.5);
 }
 
-    .janela2 h1{
+    .janela2 .h1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         font-weight: 700;
-        size: 16px;
+        margin-top: 25px;
     }
 
-    .online div{
+    .janela2 .usuarios{
         display: flex;
+        flex-direction: column;
+        margin-top: 25px;
+        overflow-y: auto;
+        cursor: pointer;
+
     }
+
+
+        .janela2 .usuarios .caixaNomeIcon{
+            display: flex;
+            flex-direction: row;
+            align-items: center;    
+            width: 220px;
+            background-color: rgb(255, 255, 255);
+            position: relative;
+            height: 36px;
+        }
+
+        .janela2 .usuarios .caixaNomeIcon:hover{
+            text-decoration: underline;
+            background-color: rgb(214, 214, 214);
+        }
+
+            .janela2 .usuarios .checkBox{
+                display: none;
+            }
+
+            .janela2 .usuarios .checkBox.selecionado{
+                display: block;
+                color: #28BB25;
+                position: absolute;
+                right: 0;
+            }
+
+
+    .janela2 button{
+        width: auto;
+        position: absolute;
+        bottom: 25px;
+        border: solid 1px;
+        border-radius: 10px;
+    }
+
+        .janela2 button:hover{
+            background-color: rgb(214, 214, 214);
+        }
+
 
 /* header */
 
@@ -59,12 +119,34 @@ header{
 
     }
 
+    .nomeUsuario{
+        margin-left: -8px;
+        box-sizing: border-box;
+        display: block;
+        text-align: center;
+        width: 200px;
+        align-items: center;
+        justify-content: center;
+        /* border: solid; */
+        font-style: italic;
+        text-decoration: underline;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.993);
+        font-size: 24px;
+
+    }
+
+    header button{
+        box-sizing: content-box;
+        margin-right: 22px;
+        width: 46px;
+        background-color: white;
+        border: none;
+    }
+
     header ion-icon{
         width: 45px;
         height: 45px;
         font-weight: 900;
-        margin-right: 22px;
-
     }
 
 
@@ -99,6 +181,10 @@ main{
     main .status{
         background-color: var(--var-fundo-mensagens-entrada-saida);
     }
+
+    main .private_message{
+        background-color: #FFDEDE;
+    } 
 
     p{
         margin-left: 8px;

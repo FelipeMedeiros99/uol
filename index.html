@@ -9,32 +9,37 @@
 </head>
 
 <body>
-    <div class="oculto janela2">
-        <h1> 
-            Escolha um contato
-        </h1>
-        <h1>
-            para enviar mensagem
-        </h1>
 
-        <div class="online">
-            <div>
+    <div class="janela2 oculto">
+
+        <div class="h1">
+            <h1>Escolha um contato</h1>
+            <h1>para enviar mensagem privada</h1>
+        </div>
+
+        <div class="usuarios">
+            <div class="todos caixaNomeIcon" onclick="selecionado(this)">
                 <ion-icon name="people-outline"></ion-icon>
                 <p>Todos</p>
+                <ion-icon class="checkBox selecionado" name="checkmark-outline"></ion-icon>
             </div>
-            <!-- quem está online -->
+    
+            <div class="pessoasOnline">
+                <!-- carregar dinâmicamente -->
+            </div>
         </div>
 
-        <div class="botoes">
-            <button>Confirmar</button>
-            <button onclick="abrirFecharJanelaSecundaria()">Cancelar</button>
-        </div>
-        
+        <button class="confirmar" onclick="abrirFecharJanelaSecundaria()">Confirmar</button>
+
+
     </div>
+
+
     <header>
         <img src="imagens/logo.jpg" alt="">
-        <button>
-            <ion-icon name="people-outline" onclick="abrirFecharJanelaSecundaria()"></ion-icon>
+        <div class="nomeUsuario"></div>
+        <button onclick="abrirFecharJanelaSecundaria()">
+            <ion-icon name="people-outline"></ion-icon>
         </button>
     </header>
 
@@ -44,8 +49,8 @@
 
     <footer>
         <input type="text" placeholder="Escreva aqui...">
-        <button>
-            <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+        <button onclick="enviarMensagem()">
+            <ion-icon name="paper-plane-outline"></ion-icon>
         </button>
     </footer>
 

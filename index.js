@@ -8,9 +8,15 @@ incioUsuario = true
 let texto = ""
 let hora = ""
 let mensagens = ""
-
+let pessoasOnlineNoMomento = [{name: ''}]
+let pessoaSelecionada = 'Todos'
+let tipo = "message"
 
 //------------ funçoes ----------//
+function adicionaNomeUsuario(){
+    document.querySelector('.nomeUsuario').innerHTML=`<p>${nomeUsuario}</p>`
+}
+
 function mostraRetorno(dado){
     console.log('deu certo')
     console.log(dado)
@@ -26,10 +32,11 @@ function entrarNaSala(dado){
     // plotando mensagens
     plotaMensagem(tipo="status", usuarioQueEnviou=nomeUsuario, usuarioQueRecebe="", mensagem="entrou na sala...", hora)
     scrollBaixo()
+    tipo="message"
+    adicionaNomeUsuario()
 }
 
-function plotaMensagem(tipo, usuarioQueEnviou, usuarioQueRecebe="", mensagem, hora=hora){
-    // console.log(tipo, usuarioQueEnviou, usuarioQueRecebe, mensagem, hora)
+function plotaMensagem(tipo=tipo, usuarioQueEnviou, usuarioQueRecebe="", mensagem, hora=hora){
     // tipo: alerta de usuario entrando/saindo, 
     // mensagens gerais e mensagens privadas.
     if (tipo == 'status'){
@@ -46,6 +53,15 @@ function plotaMensagem(tipo, usuarioQueEnviou, usuarioQueRecebe="", mensagem, ho
             <span>(${hora})</span>  <strong>${usuarioQueEnviou}</strong> para <strong>${usuarioQueRecebe}</strong>: ${mensagem}
         </p>
     </div>`
+    }else if(tipo== "private_message"){
+        if (usuarioQueRecebe === nomeUsuario || usuarioQueEnviou === nomeUsuario){
+            main.innerHTML += 
+            `<div class="${tipo} mensagem">
+                <p>
+                    <span>(${hora})</span>  <strong>${usuarioQueEnviou}</strong> reservadamente para <strong>${usuarioQueRecebe}</strong>: ${mensagem}
+                </p>
+            </div>` 
+        }
     }
 
     main.scrollTop = main.scrollHeight
@@ -69,14 +85,17 @@ function recebeDadosMensagens(dado){
     // limpando mensagens anteriores
     main.innerHTML = ""
 
-    dadosGerais.forEach(function(informacoes){plotaMensagem(
-        tipo=informacoes.type,
+    dadosGerais.forEach(function(informacoes){
+        let tipo = informacoes.type
+        plotaMensagem(
+        tipo=tipo,
         usuarioQueEnviou=informacoes.from,
         usuarioQueRecebe=informacoes.to,
         mensagem=informacoes.text, 
         hora=informacoes.time)
         } 
     )
+    
     if (incioUsuario){
         novoUsuario()
     }
@@ -94,8 +113,9 @@ function novoUsuario(){
     promessaEnvio.catch(mostraErro)
 
     // ficando online
-    setInterval(manterOnline, 3000)
+    setInterval(manterOnline, 1000)
     incioUsuario = false
+
 }
 
 function scrollBaixo(){
@@ -112,33 +132,24 @@ function enviarMensagem(){
     hora = Date().substring(16, 24);
     let dadosDoEnvio = {
         from: nomeUsuario, 
-        to: 'Todos',
+        to: pessoaSelecionada,
         text: texto,
-        type: 'message',
+        type: tipo,
         time: hora
     }
-
+    console.log(dadosDoEnvio)
     let promessaEnvio = axios.post(mensagensServidor, dadosDoEnvio)
     promessaEnvio.then(adicionaMensagemTodos)
     promessaEnvio.catch(mostraErro)
-
     document.querySelector('input').value = ''
-
-
 }
 
 function adicionaMensagemTodos(dado){
-    plotaMensagem(tipo='message', usuarioQueEnviou=nomeUsuario, usuarioQueRecebe="Todos", mensagem=texto, hora=hora)
+    plotaMensagem(tipo=tipo, usuarioQueEnviou=nomeUsuario, usuarioQueRecebe=pessoaSelecionada, mensagem=texto, hora=hora)
 }
 
-
 function abrirFecharJanelaSecundaria(){
-
     document.querySelector(".janela2").classList.toggle('oculto')
-    
-//     let body = document.querySelector('.online')
-//     body.innerHTML += `
-//     `
 }
 
 function pessoasOnline(){
@@ -149,18 +160,27 @@ function pessoasOnline(){
 }
 
 function adicionarNaPagina(dado){
-
-    let online = document.querySelector('.online')
-    let pessoas = [...dado.data]
-
-    pessoas.forEach(function(pessoa){
-
-        online.innerHTML += `
-        <div>
-            <ion-icon name="people-outline"></ion-icon>
-            <p>${pessoa.name}</p>
-        </div>`
-    })
+    for(let i=0; i < pessoasOnlineNoMomento.length; i++){
+        if (pessoasOnlineNoMomento[i]['name'] !== (dado.data)[i]['name']){
+            let classePessoasOnlines = document.querySelector('.pessoasOnline');
+            classePessoasOnlines.innerHTML = ``;
+            (dado.data).forEach(function(dadoUsuario){
+                if(dadoUsuario['name'] === nomeUsuario){
+                }else{
+                classePessoasOnlines.innerHTML += `
+                <div class="caixaNomeIcon" onclick="selecionado(this)">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <p>${dadoUsuario['name']}</p>
+                    <ion-icon class="checkBox" name="checkmark-outline"></ion-icon>
+                </div>
+                `
+                }
+            })
+            
+            pessoasOnlineNoMomento = dado.data;
+            break
+        }
+    }
 }
 
 function atualizarMensagens(){
@@ -173,15 +193,35 @@ function comparaMensagens(dado){
 
     // se alguma mensagem nova for enviada, atualiza no main
     for (let i=0; i < (dado.data).length; i++){
-        console.log((dado.data[i]['type'] === mensagens[i]['type']))
-
+        
         if (!(dado.data[i]['type'] === mensagens[i]['type'])){
-            console.log('mensagens alteradas')
             criaTelaDeMensagens()
             break
-        } 
+        }
     }    
 }
+
+function marcarPessoa(elemento){
+    let checkMark = elemento.querySelector(".selecionado")
+    // console.log(checkMark.innerHTML)
+    checkMark.classList.toggle('oculto')
+}
+
+function selecionado(elemento){
+    let elementosSelecionados = [...document.querySelectorAll('.selecionado')]
+    elementosSelecionados.forEach(function(elementoDeElementos){
+        elementoDeElementos.classList.toggle('selecionado')
+    })
+
+    elemento.querySelector('.checkBox').classList.add('selecionado')
+    pessoaSelecionada = elemento.querySelector('p').innerText
+    if (pessoaSelecionada==="Todos"){
+        tipo="message"
+    }else{
+        tipo="private_message"
+    }
+}
+
 
 // ------------ código ----------//
 // setInterval(criaTelaDeMensagens, 3000)
@@ -189,7 +229,6 @@ function comparaMensagens(dado){
 
 criaTelaDeMensagens()
 
-setInterval(atualizarMensagens, 3000)
-// atualizarMensagens()
+setInterval(atualizarMensagens, 1000)
 
-pessoasOnline()
+setInterval(pessoasOnline, 3000)
