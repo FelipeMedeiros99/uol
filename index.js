@@ -106,7 +106,7 @@ function gerandoMensagensNaTela(dado){
 
 function novoUsuario(){
     // pegando dados do usuário
-    nomeUsuario = prompt('Insira seu nome: ')
+    nomeUsuario = prompt('Insira seu nome')
     // enviando para o axios e entrando na sala
     let promessaEnvio = axios.post(repositorio, {name: nomeUsuario})
     promessaEnvio.then(entrarNaSala)
@@ -150,6 +150,7 @@ function adicionaMensagemTodos(dado){
 
 function abrirJanelaSecundaria(){
     document.querySelector(".janela2").classList.remove('oculto')
+    document.querySelector('.sombra').classList.remove('oculto')
 }
 
 function pessoasOnline(){
@@ -180,7 +181,6 @@ function adicionarNaPagina(dado){
 
     }else{
     for(let i=0; i < pessoasOnlineNoMomento.length; i++){
-        console.log(`dado.data na parte ${i} está aqui: `, dado.data[i])
         if (pessoasOnlineNoMomento[i]['name'] !== (dado.data)[i]['name']){
             pessoasOnlineNoMomento = dado.data;
             
@@ -241,10 +241,20 @@ function selecionado(elemento){
 
 function fecharJanelaSecundaria(){
     document.querySelector('.janela2').classList.add('oculto')
+    document.querySelector('.sombra').classList.add('oculto')
 }
+
+function cliqueForaJanela2(){
+    let janela2 = document.querySelector('.janela2')
+    document.addEventListener('click', function(evento){
+        if (!janela2.contains(evento.target)){
+            fecharJanelaSecundaria()
+        }
+    })
+}
+
 // ------------ código ----------//
 // setInterval(criaTelaDeMensagens, 3000)
-
 
 criaTelaDeMensagens()
 
@@ -252,9 +262,12 @@ setInterval(atualizarMensagens, 1000)
 
 setInterval(pessoasOnline, 1000)
 
+cliqueForaJanela2()
+
 document.addEventListener('keydown', function(acao){
     if (acao.key === "Enter"){
         enviarMensagem()
+        
     }
 })
 
