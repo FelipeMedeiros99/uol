@@ -148,8 +148,8 @@ function adicionaMensagemTodos(dado){
     plotaMensagem(tipo=tipo, usuarioQueEnviou=nomeUsuario, usuarioQueRecebe=pessoaSelecionada, mensagem=texto, hora=hora)
 }
 
-function abrirFecharJanelaSecundaria(){
-    document.querySelector(".janela2").classList.toggle('oculto')
+function abrirJanelaSecundaria(){
+    document.querySelector(".janela2").classList.remove('oculto')
 }
 
 function pessoasOnline(){
@@ -160,9 +160,12 @@ function pessoasOnline(){
 }
 
 function adicionarNaPagina(dado){
-    for(let i=0; i < pessoasOnlineNoMomento.length; i++){
-        if (pessoasOnlineNoMomento[i]['name'] !== (dado.data)[i]['name']){
-            let classePessoasOnlines = document.querySelector('.pessoasOnline');
+    let classePessoasOnlines = document.querySelector('.pessoasOnline');
+
+    if (pessoasOnlineNoMomento.length !== dado.data.length){
+        pessoasOnlineNoMomento = dado.data
+
+        for(let i=0; i < pessoasOnlineNoMomento.length; i++){
             classePessoasOnlines.innerHTML = ``;
             (dado.data).forEach(function(dadoUsuario){
                 if(dadoUsuario['name'] === nomeUsuario){
@@ -172,15 +175,29 @@ function adicionarNaPagina(dado){
                     <ion-icon name="person-outline"></ion-icon>
                     <p>${dadoUsuario['name']}</p>
                     <ion-icon class="checkBox" name="checkmark-outline"></ion-icon>
-                </div>
-                `
-                }
-            })
-            
+                </div>`}})
+        }
+
+    }else{
+    for(let i=0; i < pessoasOnlineNoMomento.length; i++){
+        console.log(`dado.data na parte ${i} está aqui: `, dado.data[i])
+        if (pessoasOnlineNoMomento[i]['name'] !== (dado.data)[i]['name']){
             pessoasOnlineNoMomento = dado.data;
+            
+            classePessoasOnlines.innerHTML = ``;
+            (dado.data).forEach(function(dadoUsuario){
+                if(dadoUsuario['name'] === nomeUsuario){
+                }else{
+                classePessoasOnlines.innerHTML += `
+                <div class="caixaNomeIcon" onclick="selecionado(this)">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <p>${dadoUsuario['name']}</p>
+                    <ion-icon class="checkBox" name="checkmark-outline"></ion-icon>
+                </div>`}})
             break
         }
-    }
+    }}
+    
 }
 
 function atualizarMensagens(){
@@ -222,6 +239,9 @@ function selecionado(elemento){
 }
 
 
+function fecharJanelaSecundaria(){
+    document.querySelector('.janela2').classList.add('oculto')
+}
 // ------------ código ----------//
 // setInterval(criaTelaDeMensagens, 3000)
 
@@ -237,3 +257,4 @@ document.addEventListener('keydown', function(acao){
         enviarMensagem()
     }
 })
+
