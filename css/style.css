@@ -2,7 +2,7 @@
 :root{
     --var-fundo-cabecalho-rodape: rgb(255, 255, 255);
     --var-fundo-do-main:  rgb(243, 243, 243);
-    --var-largura-da-pagina: 375px;
+    --var-largura-da-pagina: 100%;
     --var-fundo-mensagens-entrada-saida: #DCDCDC;
     --var-hora: rgb(147, 129, 129);
 }
