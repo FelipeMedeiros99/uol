@@ -215,7 +215,10 @@ footer{
     footer input{
         margin-left: 17px;
         height: 30px;
-        width: 145px;
+        width: 100%;
+        border: solid 1px rgb(214, 214, 214);
+        border-radius: 15px;
+
     }
 
     footer ion-icon{

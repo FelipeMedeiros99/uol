@@ -137,11 +137,11 @@ function enviarMensagem(){
         type: tipo,
         time: hora
     }
-    console.log(dadosDoEnvio)
     let promessaEnvio = axios.post(mensagensServidor, dadosDoEnvio)
     promessaEnvio.then(adicionaMensagemTodos)
     promessaEnvio.catch(mostraErro)
     document.querySelector('input').value = ''
+
 }
 
 function adicionaMensagemTodos(dado){
@@ -203,7 +203,6 @@ function comparaMensagens(dado){
 
 function marcarPessoa(elemento){
     let checkMark = elemento.querySelector(".selecionado")
-    // console.log(checkMark.innerHTML)
     checkMark.classList.toggle('oculto')
 }
 
@@ -231,4 +230,10 @@ criaTelaDeMensagens()
 
 setInterval(atualizarMensagens, 1000)
 
-setInterval(pessoasOnline, 3000)
+setInterval(pessoasOnline, 1000)
+
+document.addEventListener('keydown', function(acao){
+    if (acao.key === "Enter"){
+        enviarMensagem()
+    }
+})
